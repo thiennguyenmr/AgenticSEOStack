@@ -1,6 +1,5 @@
 # Environment
 .env
-.env.*
 
 # Data volumes
 mnt/n8n/postgres_data/
