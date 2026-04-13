@@ -81,9 +81,11 @@ services:
       - NVIDIA_VISIBLE_DEVICES=1
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     ipc: host
+    entrypoint: ["/bin/bash", "-c", "python3 /opt/patches/patch-harmony.py && exec python3 -m vllm.entrypoints.openai.api_server \"$@\"", "--"]
     command: ["--model", "openai/gpt-oss-20b", "--host", "0.0.0.0", "--port", "8000", "--served-model-name", "gpt-oss-20b"]
     volumes:
       - ./mnt/vllm/cache:/root/.cache/huggingface
+      - ./docker/vllm/patch-harmony.py:/opt/patches/patch-harmony.py:ro
     ports:
       - "6969:8000"
     healthcheck:
